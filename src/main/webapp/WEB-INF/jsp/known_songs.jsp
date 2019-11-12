@@ -4,9 +4,10 @@
 <html>
 	<head>
 		<title>Known Songs</title>
+		<link href="css/style.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
-
+		<h1>Known Songs</h1>
 		<h3> ${thanks} </h3>
 
 		<table border=3>

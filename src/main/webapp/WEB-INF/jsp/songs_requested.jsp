@@ -4,8 +4,10 @@
 <html>
 	<head>
 		<title>Songs Requested</title>
+		<link href="css/style.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
+		<h1>Songs Requested</h1>
 
 		<h3> ${thanks} </h3>
 

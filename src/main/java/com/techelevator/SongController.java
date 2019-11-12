@@ -1,8 +1,12 @@
 package com.techelevator;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,13 +28,23 @@ public class SongController {
 	}
 	
 	@RequestMapping("/song_request_form")
-	public String showSongRequestForm() {
+	public String showSongRequestForm(ModelMap m) {
+		if( !m.containsAttribute("song") ) {
+			m.addAttribute("song", new Song());
+		}
 		return "songRequestForm";
 	}
 	
 	
 	@RequestMapping(path="/songRequest", method=RequestMethod.POST)
-	public String submitSongRequest(Song newRequest, RedirectAttributes flashScope) {
+	public String submitSongRequest(@Valid @ModelAttribute("song") Song newRequest,
+									BindingResult result,
+									RedirectAttributes flashScope) {
+		if( result.hasErrors() ) {
+			flashScope.addFlashAttribute("song", newRequest);
+			flashScope.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX+"song", result);
+			return "redirect:/song_request_form";
+		}
 		String message = "Thank you for your request! ";
 		
 		if(songDao.createRequest(newRequest)) {
